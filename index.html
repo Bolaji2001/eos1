@@ -3,170 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$EOS Trading Platform</title>
+<title>$EOS Trading Platform - Ethos Theme</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* === Binance-style Dark Theme === */
-:root {
-  --bg-dark: #0b0e11;
-  --bg-panel: #181a20;
-  --bg-hover: #2b3139;
-  --text-primary: #eaecef;
-  --text-secondary: #848e9c;
-  --accent-yellow: #f0b90b;
-  --accent-yellow-hover: #c89c09;
-  --success: #0ecb81;
-  --danger: #f6465d;
+/* ===== Reset & Base Styles ===== */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at 20% 20%,#150024,#000000);
+  color:#fff;
+  display:flex;
+  height:100vh;
+  overflow:hidden;
 }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg-dark);
-  color: var(--text-primary);
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
+
+/* ===== Animated Background ===== */
+body::before{
+  content:"";
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(120deg,rgba(176,62,255,0.1),rgba(255,62,191,0.1));
+  animation:bgMove 10s linear infinite;
+  z-index:-2;
 }
-/* Sidebar */
-.sidebar {
-  width: 240px;
-  background: var(--bg-panel);
-  padding: 20px;
-  border-right: 1px solid var(--bg-hover);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease;
+@keyframes bgMove{
+  0%{background-position:0 0;}
+  100%{background-position:400px 400px;}
 }
-.sidebar h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: var(--accent-yellow);
+
+/* ===== Sidebar ===== */
+.sidebar{
+  width:240px;
+  backdrop-filter:blur(12px);
+  background:rgba(20,20,20,0.4);
+  border-right:1px solid rgba(255,255,255,0.05);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  transition:transform 0.3s ease;
 }
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  flex: 1;
+.sidebar h2{
+  text-align:center;
+  margin-bottom:20px;
+  background:linear-gradient(90deg,#B03EFF,#FF3EBF);
+  -webkit-background-clip:text;
+  color:transparent;
+  font-weight:700;
 }
-.sidebar li {
-  padding: 10px;
-  margin: 5px 0;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.2s;
+.sidebar ul{list-style:none;flex:1;}
+.sidebar li{
+  padding:10px;
+  margin:5px 0;
+  cursor:pointer;
+  border-radius:6px;
+  transition:all 0.2s;
 }
-.sidebar li:hover { background: var(--bg-hover); }
-/* Hamburger */
-.hamburger {
-  display: none;
-  background: var(--accent-yellow);
-  padding: 10px;
-  border: none;
-  color: var(--bg-dark);
-  cursor: pointer;
-  font-size: 1.2em;
+.sidebar li:hover{
+  background:rgba(255,62,191,0.1);
+  box-shadow:0 0 10px rgba(255,62,191,0.4);
 }
-/* Main */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+
+/* ===== Hamburger (Mobile) ===== */
+.hamburger{
+  display:none;
+  background:linear-gradient(90deg,#B03EFF,#FF3EBF);
+  padding:10px;
+  border:none;
+  color:#fff;
+  font-size:1.2em;
+  cursor:pointer;
+  border-radius:4px;
 }
-/* Wallet bar */
-.wallet-bar {
-  background: var(--bg-panel);
-  padding: 10px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
-  border-bottom: 1px solid var(--bg-hover);
+
+/* ===== Main Area ===== */
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
 }
-.wallet-bar strong { color: var(--text-primary); }
-/* Content */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  animation: fadeIn 0.3s ease;
+
+/* ===== Wallet Bar ===== */
+.wallet-bar{
+  backdrop-filter:blur(8px);
+  background:rgba(20,20,20,0.5);
+  padding:10px 20px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:20px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
-.card {
-  background: var(--bg-panel);
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+.wallet-bar strong{color:#fff;}
+.wallet-bar button{flex-shrink:0;}
+
+/* ===== Buttons ===== */
+button{
+  padding:8px 14px;
+  border:none;
+  border-radius:4px;
+  background:linear-gradient(90deg,#B03EFF,#FF3EBF);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:all 0.3s ease;
 }
-input, select, button {
-  padding: 8px;
-  margin: 5px 0;
-  width: 100%;
-  border: none;
-  border-radius: 4px;
-  background: var(--bg-hover);
-  color: var(--text-primary);
+button:hover{
+  box-shadow:0 0 15px rgba(255,62,191,0.6);
+  transform:scale(1.03);
 }
-button {
-  background: var(--accent-yellow);
-  color: var(--bg-dark);
-  font-weight: bold;
-  cursor: pointer;
+
+/* ===== Content ===== */
+.content{
+  flex:1;
+  overflow-y:auto;
+  padding:20px;
 }
-button:hover { background: var(--accent-yellow-hover); }
-.chat-box {
-  height: 200px;
-  overflow-y: auto;
-  background: var(--bg-dark);
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--bg-hover);
+.card{
+  backdrop-filter:blur(10px);
+  background:rgba(20,20,20,0.4);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:10px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 0 15px rgba(255,255,255,0.05);
 }
-.chat-username { color: var(--accent-yellow); font-weight: bold; }
-.chat-time { color: var(--text-secondary); font-size: 0.85em; }
-/* Welcome popup */
-#welcomePopup {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--bg-panel);
-  padding: 20px 30px;
-  border-radius: 10px;
-  text-align: center;
-  color: var(--text-primary);
-  z-index: 2000;
-  opacity: 1;
-  transition: opacity 0.5s ease;
+h2{
+  background:linear-gradient(90deg,#B03EFF,#FF3EBF);
+  -webkit-background-clip:text;
+  color:transparent;
+  margin-bottom:10px;
 }
-/* Trade confirmations */
-.trade-confirm {
-  position: fixed;
-  top: 20px; right: 20px;
-  padding: 12px 18px;
-  border-radius: 6px;
-  font-weight: bold;
-  animation: slideFade 2s forwards;
+
+/* ===== Chat ===== */
+.chat-box{
+  height:200px;
+  overflow-y:auto;
+  padding:10px;
+  background:rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:6px;
 }
-.trade-buy { background-color: rgba(14,203,129,0.9); color: white; }
-.trade-sell { background-color: rgba(246,70,93,0.9); color: white; }
-@keyframes slideFade {
-  0% { opacity: 0; transform: translateY(-20px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-20px); }
+.chat-time{color:#3EFFFF;font-size:0.8em;}
+.chat-username{
+  background:linear-gradient(90deg,#B03EFF,#FF3EBF);
+  -webkit-background-clip:text;
+  color:transparent;
+  font-weight:bold;
 }
-@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-/* Mobile */
-@media (max-width: 768px) {
-  .sidebar { position: fixed; height: 100vh; transform: translateX(-100%); z-index: 1000; }
-  .sidebar.open { transform: translateX(0); }
-  .hamburger { display: block; }
+
+/* ===== Welcome Popup ===== */
+#welcomePopup{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  backdrop-filter:blur(12px);
+  background:rgba(20,20,20,0.8);
+  padding:20px 30px;
+  border-radius:10px;
+  text-align:center;
+  z-index:2000;
+  animation:fadeIn 0.5s ease;
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ===== Trade Confirmations ===== */
+.trade-confirm{
+  position:fixed;
+  top:20px;right:20px;
+  padding:12px 18px;
+  border-radius:6px;
+  font-weight:bold;
+  animation:slideFade 2s forwards;
+}
+.trade-buy{background-color:rgba(14,203,129,0.9);}
+.trade-sell{background-color:rgba(246,70,93,0.9);}
+@keyframes slideFade{
+  0%{opacity:0;transform:translateY(-20px);}
+  10%{opacity:1;transform:translateY(0);}
+  90%{opacity:1;}
+  100%{opacity:0;transform:translateY(-20px);}
+}
+
+/* ===== Mobile ===== */
+@media(max-width:768px){
+  .sidebar{position:fixed;height:100vh;transform:translateX(-100%);z-index:1000;}
+  .sidebar.open{transform:translateX(0);}
+  .hamburger{display:block;}
 }
 </style>
 </head>
 <body>
+
+<!-- Welcome Popup -->
 <div id="welcomePopup">
   <strong>Welcome to the EOS Trading Platform</strong><br>
-  This is a simulation. No real money is used.
+  Simulation only — No real money is used.
 </div>
+
+<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
   <h2>$EOS</h2>
   <ul>
@@ -178,6 +213,8 @@ button:hover { background: var(--accent-yellow-hover); }
     <li data-section="ponzi"><i class="fas fa-chart-line"></i> Ponzi</li>
   </ul>
 </div>
+
+<!-- Main -->
 <div class="main">
   <div class="wallet-bar" id="walletBar">
     <button class="hamburger" onclick="toggleSidebar()">☰</button>
@@ -189,27 +226,29 @@ button:hover { background: var(--accent-yellow-hover); }
     <div class="card"><h2>Welcome</h2><p>Select a feature from the sidebar.</p></div>
   </div>
 </div>
+
 <script>
+/* ===== Data ===== */
 let tokens = JSON.parse(localStorage.getItem("tokens")) || {EOS:{symbol:"EOS",price:1}};
-let balances = JSON.parse(localStorage.getItem("balances")) || {};
+let balances = JSON.parse(localStorage.getItem("balances")) || {EOS:0};
 let chatMessages = JSON.parse(localStorage.getItem("chat")) || [];
 let username = localStorage.getItem("username") || prompt("Enter username:") || "Guest" + Math.floor(Math.random()*1000);
 localStorage.setItem("username", username);
 
+/* ===== Save Data ===== */
 function saveData(){localStorage.setItem("tokens",JSON.stringify(tokens));localStorage.setItem("balances",JSON.stringify(balances));localStorage.setItem("chat",JSON.stringify(chatMessages));}
+
+/* ===== Wallet ===== */
 function updateWalletBar(){
   let tokenBalances=Object.keys(balances).map(t=>`${t}: <strong>${balances[t]}</strong>`).join(" | ");
   document.getElementById("walletTokens").innerHTML=tokenBalances||"No tokens yet";
 }
+function clearPortfolio(){balances={EOS:0};saveData();updateWalletBar();}
+
+/* ===== Sidebar ===== */
 function toggleSidebar(){document.getElementById("sidebar").classList.toggle("open");}
-function clearPortfolio(){balances={};saveData();updateWalletBar();}
-function showTradeConfirmation(text,type){
-  let div=document.createElement("div");
-  div.className=`trade-confirm trade-${type}`;
-  div.textContent=text;
-  document.body.appendChild(div);
-  setTimeout(()=>div.remove(),2000);
-}
+
+/* ===== Section Rendering ===== */
 function render(section){
   const c=document.getElementById("content");
   if(["trade","claim","gamble","ponzi"].includes(section)&&Object.keys(tokens).length===0){
@@ -217,9 +256,9 @@ function render(section){
   }
   if(section==="create-token"){
     c.innerHTML=`<div class='card'><h2>Create Token</h2>
-    <input id="tokenName" placeholder="Token Name">
-    <input id="tokenSymbol" placeholder="Symbol">
-    <button onclick="createToken()">Create</button></div>`;
+      <input id="tokenName" placeholder="Token Name">
+      <input id="tokenSymbol" placeholder="Symbol">
+      <button onclick="createToken()">Create</button></div>`;
   }
   if(section==="chat"){
     let msgs=chatMessages.map(m=>`<div><span class='chat-time'>[${m.time}]</span> <span class='chat-username'>${m.user}:</span> ${m.text}</div>`).join("");
@@ -254,6 +293,8 @@ function render(section){
     <button onclick="startPonzi()">Lock</button></div>`;
   }
 }
+
+/* ===== Actions ===== */
 function createToken(){
   let name=document.getElementById("tokenName").value.trim();
   let sym=document.getElementById("tokenSymbol").value.trim();
@@ -289,9 +330,9 @@ function gambleTokens(){
   if(Math.random()<0.5){balances[t]+=amt;alert("You won!");}else{balances[t]-=amt;alert("You lost!");}
   saveData();updateWalletBar();
 }
-function startPonzi(){
-  alert("Ponzi feature placeholder");
-}
+function startPonzi(){alert("Ponzi feature placeholder");}
+
+/* ===== Live EOS Price ===== */
 function initLiveEOS(){
   const ws=new WebSocket('wss://stream.binance.com:9443/ws/eosusdt@trade');
   ws.onmessage=e=>{
@@ -301,6 +342,8 @@ function initLiveEOS(){
     let lp=document.getElementById("last-price");if(lp)lp.textContent=`$${price}`;
   };
 }
+
+/* ===== TradingView Chart ===== */
 function loadTradingViewChart(){
   const s=document.createElement('script');s.src="https://s3.tradingview.com/tv.js";
   s.onload=()=>{
@@ -308,6 +351,17 @@ function loadTradingViewChart(){
   };
   document.body.appendChild(s);
 }
+
+/* ===== Trade Confirmation ===== */
+function showTradeConfirmation(text,type){
+  let div=document.createElement("div");
+  div.className=`trade-confirm trade-${type}`;
+  div.textContent=text;
+  document.body.appendChild(div);
+  setTimeout(()=>div.remove(),2000);
+}
+
+/* ===== Init ===== */
 document.querySelectorAll('.sidebar li').forEach(li=>{
   li.addEventListener('click',()=>{
     render(li.dataset.section);
