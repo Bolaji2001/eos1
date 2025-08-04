@@ -1,26 +1,37 @@
-# EOS Trading Platform (Simulation)
+# EOS Trading Platform (Ethos.Vision Theme)
 
-A **Binance-style** EOS trading simulation with fun extras like Claim, Gamble, and Ponzi.  
-This is **not a real trading platform** — it’s for entertainment and educational purposes only.
+A **crypto trading simulation platform** designed with a sleek **Ethos.Vision-inspired theme**.  
+Trade EOS and custom tokens in a visually stunning environment with **neon gradients, glassmorphism UI, and smooth animations** — all for **educational and entertainment purposes only**.
 
 ---
 
 ## 🚀 Features
-- **Binance-style Dark Theme** — clean, modern UI.
-- **Live EOS Price Feed** — via Binance WebSocket, updates instantly.
-- **TradingView EOS Chart** — embedded for market analysis.
-- **Buy/Sell Simulation** — trade EOS or your custom tokens.
-- **Portfolio Tracking** — view your holdings in real time.
-- **Clear Portfolio Button** — reset your holdings for testing.
-- **Token Creation** — create and track custom tokens.
-- **Local Chat System** — persistent chat messages stored in your browser.
-- **Username System** — pick a name once and it’s saved locally.
-- **Claim** — receive free tokens for testing.
-- **Gamble** — try your luck with your tokens.
-- **Ponzi** — playful locking mechanism (simulation only).
-- **Welcome Popup** — fades out automatically.
-- **Animated Trade Confirmations** — buy/sell feedback with smooth animations.
-- **Mobile-Friendly** — works on desktop and mobile.
+
+### 🎨 Ethos.Vision-Inspired UI
+- **Animated neon background** (black → purple gradient with subtle movement)
+- **Glassmorphism sidebar, cards, and chat box**
+- **Neon gradient buttons** with glowing hover effect
+- **Gradient text headings** for a premium look
+
+### 📈 Core Trading Features
+- **Live EOS Price Feed** from Binance WebSocket
+- **TradingView EOS Chart** embedded in the Trade section
+- **Buy/Sell Simulation** with animated confirmations
+- **Portfolio Tracking** with instant updates
+- **Clear Portfolio Button** for quick resets
+- **Preloaded EOS Token** so users can trade instantly
+
+### 💡 Fun Extras
+- **Token Creation** — make your own tradable tokens
+- **Claim Mode** — receive free tokens for testing
+- **Gamble Mode** — wager tokens in a coin-flip style game
+- **Ponzi Mode** — lock tokens for simulated returns
+
+### 💬 Chat System
+- Local chat system with:
+  - **Username prompt** (saved locally)
+  - **Gradient usernames** and **glowing timestamps**
+  - Messages persist in your browser
 
 ---
 
