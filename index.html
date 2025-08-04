@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$EOS Trading Platform</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* === Binance-style Dark Theme === */
+:root {
+  --bg-dark: #0b0e11;
+  --bg-panel: #181a20;
+  --bg-hover: #2b3139;
+  --text-primary: #eaecef;
+  --text-secondary: #848e9c;
+  --accent-yellow: #f0b90b;
+  --accent-yellow-hover: #c89c09;
+  --success: #0ecb81;
+  --danger: #f6465d;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: var(--bg-panel);
+  padding: 20px;
+  border-right: 1px solid var(--bg-hover);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--accent-yellow);
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex: 1;
+}
+.sidebar li {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.sidebar li:hover { background: var(--bg-hover); }
+/* Hamburger */
+.hamburger {
+  display: none;
+  background: var(--accent-yellow);
+  padding: 10px;
+  border: none;
+  color: var(--bg-dark);
+  cursor: pointer;
+  font-size: 1.2em;
+}
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+/* Wallet bar */
+.wallet-bar {
+  background: var(--bg-panel);
+  padding: 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--bg-hover);
+}
+.wallet-bar strong { color: var(--text-primary); }
+/* Content */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+.card {
+  background: var(--bg-panel);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+input, select, button {
+  padding: 8px;
+  margin: 5px 0;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+button {
+  background: var(--accent-yellow);
+  color: var(--bg-dark);
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover { background: var(--accent-yellow-hover); }
+.chat-box {
+  height: 200px;
+  overflow-y: auto;
+  background: var(--bg-dark);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--bg-hover);
+}
+.chat-username { color: var(--accent-yellow); font-weight: bold; }
+.chat-time { color: var(--text-secondary); font-size: 0.85em; }
+/* Welcome popup */
+#welcomePopup {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-panel);
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+  color: var(--text-primary);
+  z-index: 2000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+/* Trade confirmations */
+.trade-confirm {
+  position: fixed;
+  top: 20px; right: 20px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  animation: slideFade 2s forwards;
+}
+.trade-buy { background-color: rgba(14,203,129,0.9); color: white; }
+.trade-sell { background-color: rgba(246,70,93,0.9); color: white; }
+@keyframes slideFade {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+/* Mobile */
+@media (max-width: 768px) {
+  .sidebar { position: fixed; height: 100vh; transform: translateX(-100%); z-index: 1000; }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger { display: block; }
+}
+</style>
+</head>
+<body>
+<div id="welcomePopup">
+  <strong>Welcome to the EOS Trading Platform</strong><br>
+  This is a simulation. No real money is used.
+</div>
+<div class="sidebar" id="sidebar">
+  <h2>$EOS</h2>
+  <ul>
+    <li data-section="create-token"><i class="fas fa-coins"></i> Create Token</li>
+    <li data-section="chat"><i class="fas fa-comments"></i> Chat</li>
+    <li data-section="trade"><i class="fas fa-exchange-alt"></i> Trade</li>
+    <li data-section="claim"><i class="fas fa-gift"></i> Claim</li>
+    <li data-section="gamble"><i class="fas fa-dice"></i> Gamble</li>
+    <li data-section="ponzi"><i class="fas fa-chart-line"></i> Ponzi</li>
+  </ul>
+</div>
+<div class="main">
+  <div class="wallet-bar" id="walletBar">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div>EOS Price: <strong id="eosPrice">$0.00</strong></div>
+    <div id="walletTokens"></div>
+    <button onclick="clearPortfolio()">Clear Portfolio</button>
+  </div>
+  <div class="content" id="content">
+    <div class="card"><h2>Welcome</h2><p>Select a feature from the sidebar.</p></div>
+  </div>
+</div>
+<script>
+let tokens = JSON.parse(localStorage.getItem("tokens")) || {EOS:{symbol:"EOS",price:1}};
+let balances = JSON.parse(localStorage.getItem("balances")) || {};
+let chatMessages = JSON.parse(localStorage.getItem("chat")) || [];
+let username = localStorage.getItem("username") || prompt("Enter username:") || "Guest" + Math.floor(Math.random()*1000);
+localStorage.setItem("username", username);
+
+function saveData(){localStorage.setItem("tokens",JSON.stringify(tokens));localStorage.setItem("balances",JSON.stringify(balances));localStorage.setItem("chat",JSON.stringify(chatMessages));}
+function updateWalletBar(){
+  let tokenBalances=Object.keys(balances).map(t=>`${t}: <strong>${balances[t]}</strong>`).join(" | ");
+  document.getElementById("walletTokens").innerHTML=tokenBalances||"No tokens yet";
+}
+function toggleSidebar(){document.getElementById("sidebar").classList.toggle("open");}
+function clearPortfolio(){balances={};saveData();updateWalletBar();}
+function showTradeConfirmation(text,type){
+  let div=document.createElement("div");
+  div.className=`trade-confirm trade-${type}`;
+  div.textContent=text;
+  document.body.appendChild(div);
+  setTimeout(()=>div.remove(),2000);
+}
+function render(section){
+  const c=document.getElementById("content");
+  if(["trade","claim","gamble","ponzi"].includes(section)&&Object.keys(tokens).length===0){
+    c.innerHTML=`<div class='card'>⚠ No tokens found. Please create one first.</div>`;return;
+  }
+  if(section==="create-token"){
+    c.innerHTML=`<div class='card'><h2>Create Token</h2>
+    <input id="tokenName" placeholder="Token Name">
+    <input id="tokenSymbol" placeholder="Symbol">
+    <button onclick="createToken()">Create</button></div>`;
+  }
+  if(section==="chat"){
+    let msgs=chatMessages.map(m=>`<div><span class='chat-time'>[${m.time}]</span> <span class='chat-username'>${m.user}:</span> ${m.text}</div>`).join("");
+    c.innerHTML=`<div class='card'><h2>Chat</h2><div class='chat-box' id="chatBox">${msgs}</div>
+    <input id="chatInput" placeholder="Type message..."><button onclick="sendChat()">Send</button></div>`;
+    let box=document.getElementById("chatBox");box.scrollTop=box.scrollHeight;
+  }
+  if(section==="trade"){
+    let opts=Object.keys(tokens).map(t=>`<option value="${t}">${t}</option>`).join("");
+    c.innerHTML=`<div class='card'><h2>$EOS Live</h2><div id="last-price">$0.00</div><div id="chart-container" style="height:300px;"></div></div>
+    <div class='card'><h2>Simulated Trading</h2>
+    <select id="tradeToken">${opts}</select>
+    <input id="tradeAmount" type="number" placeholder="Amount">
+    <button onclick="buyToken()">Buy</button><button onclick="sellToken()">Sell</button></div>`;
+    initLiveEOS();loadTradingViewChart();
+  }
+  if(section==="claim"){
+    let opts=Object.keys(tokens).map(t=>`<option value="${t}">${t}</option>`).join("");
+    c.innerHTML=`<div class='card'><h2>Claim Tokens</h2><select id="claimToken">${opts}</select>
+    <button onclick="claimTokens()">Claim</button></div>`;
+  }
+  if(section==="gamble"){
+    let opts=Object.keys(tokens).map(t=>`<option value="${t}">${t}</option>`).join("");
+    c.innerHTML=`<div class='card'><h2>Gamble Tokens</h2><select id="gambleToken">${opts}</select>
+    <input id="gambleAmount" type="number" placeholder="Amount"><button onclick="gambleTokens()">Gamble</button></div>`;
+  }
+  if(section==="ponzi"){
+    let opts=Object.keys(tokens).map(t=>`<option value="${t}">${t}</option>`).join("");
+    c.innerHTML=`<div class='card'><h2>Ponzi Lock</h2><select id="ponziToken">${opts}</select>
+    <input id="ponziAmount" type="number" placeholder="Amount">
+    <select id="ponziTime"><option value="1">1h</option><option value="2">2h</option></select>
+    <button onclick="startPonzi()">Lock</button></div>`;
+  }
+}
+function createToken(){
+  let name=document.getElementById("tokenName").value.trim();
+  let sym=document.getElementById("tokenSymbol").value.trim();
+  if(!name||!sym)return alert("Invalid");
+  tokens[name]={symbol:sym,price:1};balances[name]=0;saveData();updateWalletBar();alert(`Token ${name} created`);
+}
+function sendChat(){
+  let msg=document.getElementById("chatInput").value.trim();
+  if(!msg)return;
+  chatMessages.push({user:username,text:msg,time:new Date().toLocaleTimeString()});
+  saveData();render("chat");
+}
+function buyToken(){
+  let t=document.getElementById("tradeToken").value;
+  let amt=parseFloat(document.getElementById("tradeAmount").value);
+  if(isNaN(amt)||amt<=0)return;
+  balances[t]=(balances[t]||0)+amt;saveData();updateWalletBar();showTradeConfirmation(`Bought ${amt} ${t}`,"buy");
+}
+function sellToken(){
+  let t=document.getElementById("tradeToken").value;
+  let amt=parseFloat(document.getElementById("tradeAmount").value);
+  if(isNaN(amt)||amt<=0||!balances[t]||balances[t]<amt)return;
+  balances[t]-=amt;saveData();updateWalletBar();showTradeConfirmation(`Sold ${amt} ${t}`,"sell");
+}
+function claimTokens(){
+  let t=document.getElementById("claimToken").value;
+  balances[t]=(balances[t]||0)+100;saveData();updateWalletBar();alert(`Claimed 100 ${t}`);
+}
+function gambleTokens(){
+  let t=document.getElementById("gambleToken").value;
+  let amt=parseFloat(document.getElementById("gambleAmount").value);
+  if(isNaN(amt)||amt<=0||balances[t]<amt)return;
+  if(Math.random()<0.5){balances[t]+=amt;alert("You won!");}else{balances[t]-=amt;alert("You lost!");}
+  saveData();updateWalletBar();
+}
+function startPonzi(){
+  alert("Ponzi feature placeholder");
+}
+function initLiveEOS(){
+  const ws=new WebSocket('wss://stream.binance.com:9443/ws/eosusdt@trade');
+  ws.onmessage=e=>{
+    let data=JSON.parse(e.data);
+    let price=parseFloat(data.p).toFixed(4);
+    document.getElementById("eosPrice").textContent=`$${price}`;
+    let lp=document.getElementById("last-price");if(lp)lp.textContent=`$${price}`;
+  };
+}
+function loadTradingViewChart(){
+  const s=document.createElement('script');s.src="https://s3.tradingview.com/tv.js";
+  s.onload=()=>{
+    new TradingView.widget({width:"100%",height:300,symbol:"BINANCE:EOSUSDT",interval:"30",timezone:"Etc/UTC",theme:"dark",style:"1",locale:"en",container_id:"chart-container"});
+  };
+  document.body.appendChild(s);
+}
+document.querySelectorAll('.sidebar li').forEach(li=>{
+  li.addEventListener('click',()=>{
+    render(li.dataset.section);
+    if(window.innerWidth<768)toggleSidebar();
+  });
+});
+setTimeout(()=>{document.getElementById("welcomePopup").style.opacity="0";setTimeout(()=>{document.getElementById("welcomePopup").remove();},500);},4000);
+updateWalletBar();
+</script>
+</body>
+</html>
